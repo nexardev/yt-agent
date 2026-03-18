@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from youtube_transcript_api import YouTubeTranscriptApi
+from youtube_transcript_api.proxies import WebshareProxyConfig
 
 app = FastAPI()
 
@@ -10,7 +11,11 @@ def root():
 @app.get("/transcript/{video_id}")
 def get_transcript(video_id: str):
     try:
-        ytt_api = YouTubeTranscriptApi()
+        proxy_config = WebshareProxyConfig(
+            proxy_username="YOUR_WEBSHARE_USERNAME",
+            proxy_password="YOUR_WEBSHARE_PASSWORD",
+        )
+        ytt_api = YouTubeTranscriptApi(proxy_config=proxy_config)
         transcript = ytt_api.fetch(video_id)
         full_text = " ".join([t.text for t in transcript])
         return {"video_id": video_id, "transcript": full_text}

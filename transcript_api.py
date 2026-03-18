@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api.proxies import WebshareProxyConfig
+import os
 
 app = FastAPI()
 
